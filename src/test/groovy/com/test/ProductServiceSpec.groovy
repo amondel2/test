@@ -1,13 +1,14 @@
 package com.test
 
+import grails.test.hibernate.HibernateSpec
 import grails.testing.gorm.DataTest
 import grails.testing.services.ServiceUnitTest
 import org.hibernate.NonUniqueResultException
 import org.springframework.test.annotation.Rollback
-import spock.lang.Specification
+
 
 @Rollback
-class ProductServiceSpec extends Specification implements DataTest,ServiceUnitTest<ProductService>{
+class ProductServiceSpec extends HibernateSpec  implements DataTest,ServiceUnitTest<ProductService>{
 
     def setupSpec(){
         mockDomain Product
@@ -39,8 +40,9 @@ class ProductServiceSpec extends Specification implements DataTest,ServiceUnitTe
 
     void "thisShouldPass"() {
         when:
+        def rs
         try {
-            def rs = service.singleItem({ like('name', '%Test') }  )
+            rs = service.singleItem({ like('name', '%Test') }  )
         } catch ( NonUniqueResultException ex) {
             throw ex
         }
